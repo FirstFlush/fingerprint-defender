@@ -1,0 +1,28 @@
+{
+  "name": "fingerprint-defender",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "run": "web-ext run --source-dir=dist --firefox=firefox"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "devDependencies": {
+    "@types/chrome": "^0.0.313",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "web-ext": "^8.5.0"
+  },
+  "dependencies": {
+    "@types/user-agents": "^1.0.4",
+    "moment-timezone": "^0.5.48",
+    "user-agents": "^1.1.494"
+  }
+}
