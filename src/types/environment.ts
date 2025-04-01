@@ -21,6 +21,15 @@ export type Platform =
   | "FreeBSD amd64"        // BSD variants
   | "CrOS x86_64";         // ChromeOS
 
+  export type PermissionName =
+  | "geolocation"
+  | "notifications"
+  | "camera"
+  | "microphone"
+  | "persistent-storage"
+  | "midi"
+  | "clipboard-read"
+  | "clipboard-write";
 
 // ======================
 // HARDWARE & DISPLAY
@@ -80,7 +89,7 @@ export interface PrivacySignals {
     doNotTrack: string | null;
     globalPrivacyControl: boolean;
     cookieEnabled: boolean;
-    permissions?: Record<string, PermissionState>;
+    permissions?: Record<PermissionName, PermissionState>;
 }
 
 // ======================

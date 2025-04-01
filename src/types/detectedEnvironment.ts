@@ -1,4 +1,4 @@
-import { Environment, Hardware, Display, BrowserIdentity } from "./environment";
+import { Hardware, Display, BrowserIdentity } from "./environment";
 
 
 export type DetectedScreen = Pick<Display, 
@@ -14,7 +14,6 @@ export type DetectedHardware = Pick<Hardware,
 export type DetectedBrowser = Pick<BrowserIdentity,
   "userAgent" | "platform" | "vendor" | "oscpu"
 > & {
-  // Needed for convincing spoofing
   userAgentData: {
     brands: { brand: string; version: string }[];
     mobile: boolean;

@@ -7,7 +7,10 @@ import moment from "moment-timezone";
 const getScreen = (): DetectedScreen => {
     return {
         width: window.screen.width,
-        height: window.screen.height
+        height: window.screen.height,
+        availWidth: window.screen.availWidth,
+        availHeight: window.screen.availHeight,
+        devicePixelRatio: devicePixelRatio,
     }
 }
 
@@ -24,6 +27,8 @@ const getDeviceType = ( { width }: DetectedScreen ): DeviceType => {
 const getTimezone = (): string => {
     return moment.tz.guess();
 }
+
+
 
 const detectEnvironment = (): DetectedEnvironment => {
     const screen = getScreen();
