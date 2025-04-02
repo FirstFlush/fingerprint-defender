@@ -14,7 +14,14 @@ Each session gets a fresh identity, including:
 
 This project is in early development and is not yet ready for installation. More details on installation, configuration, and usage will be added once the core spoofing logic is complete.
 
----
+## Two Privacy Modes
 
-**Goal:** help users blend into large anonymity sets while preserving usability and avoiding obviously fake fingerprints.
+Fingerprint Defender will offer two spoofing modes to match different threat models:
 
+- **Stealth Mode** (default): Prioritizes realism and site compatibility. Spoofed values are plausible and consistent, helping users blend in with common fingerprint profiles and reduce CAPTCHAs or site breakage.
+
+- **Ghost Mode**: Maximizes unlinkability and anonymity. Fingerprints are highly randomized and harder to track across sessions—but may trigger bot detection systems or degrade user experience on some sites.
+
+## Manual Refresh
+
+Both privacy modes are designed to persist for the browser session. However sometimes users may want to generate a new spoofed identity mid-session. Such as when a user logs out of a service and wants to ensure the service is not continuing to track them via fingerprinting techniques. There will be a button to manually refresh your spoofed identity-mid session.
