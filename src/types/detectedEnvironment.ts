@@ -1,36 +1,43 @@
-import { Hardware, Display, BrowserIdentity } from "./environment";
+import { Hardware, Display, BrowserIdentity, Localization, WebGLFingerprint,
+  CanvasFingerprint, AudioFingerprint, FontFingerprint, NetworkInfo, StorageInfo,
+  SensorAccess
+ } from "./environment";
+
+export type DetectedAudioFingerprint = {
+
+}
 
 
-export type DetectedScreen = Pick<Display, 
-  "width" | "height" | "availWidth" | "availHeight" | "devicePixelRatio"
->;
 
-export type DetectedHardware = Pick<Hardware,
-  "concurrency" | "deviceMemory" | "maxTouchPoints"
-> & {
-  architecture: 'x86' | 'arm'; // Critical for M1/Intel spoofing
-};
+export type DetectedDisplay = Omit<Display, "colorDepth" | "pixelDepth" | "orientation">
+export type DetectedHardware = Omit<Hardware, "battery">; 
+export type DetectedWebGLFingerprint = Omit<WebGLFingerprint, "noiseSeed">
 
 export type DetectedBrowser = Pick<BrowserIdentity,
-  "userAgent" | "platform" | "vendor" | "oscpu"
+  "userAgent" |  "vendor" | "oscpu"
 > & {
-  userAgentData: {
-    brands: { brand: string; version: string }[];
-    mobile: boolean;
-    platform: string;
-  };
-};
+  platform: string;
+} ;
+// TODO check if userAgentData is relevant. if so, add it to the main environment.
+// & { 
+//   userAgentData?: {
+//     brands: { brand: string; version: string }[];
+//     mobile: boolean;
+//     platform: string;
+//   };
+// };
+
+
+export type DetectedCanvasFingerPrint = Omit<CanvasFingerprint, "noiseProfile">
+
+export type DetectedLocalization = Pick<Localization, "languages" | "timezone">;
 
 export type DetectedEnvironment = {
   // Core
   browser: DetectedBrowser;
-  display: DetectedScreen;
+  display: DetectedDisplay;
   hardware: DetectedHardware;
-  localization: {
-    timezone: string;
-    language: string;
-    locale: string;
-  };
+  localization: DetectedLocalization;
   
   // Advanced Fingerprinting
   webGL: {
@@ -49,6 +56,9 @@ export type DetectedEnvironment = {
   doNotTrack: string | null;
   cookieEnabled: boolean;
 };
+
+
+
 
 
 

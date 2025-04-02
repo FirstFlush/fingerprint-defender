@@ -1,25 +1,15 @@
+import { KNOWN_PLATFORMS } from "@/data/platforms";
+import { KNOWN_MEMORY_VALUES } from "@/data/hardware";
+
 // ======================
 // CORE TYPES
 // ======================
 export type DeviceType = "mobile" | "tablet" | "desktop";
-export type Language = [string, ...string[]];
+export type Languages = [string, ...string[]];
 export type MimeType = { type: string; description: string };
 export type Plugin = { name: string; filename: string };
-export type Platform =
-  | "Win32"                // Windows (32-bit & 64-bit)
-  | "Win64"                // Rare, but exists in some Edge versions
-  | "MacIntel"             // Intel Macs (pre-M1)
-  | "MacARM"               // Apple Silicon (M1/M2/M3)
-  | "Linux x86_64"         // Standard 64-bit Linux
-  | "Linux armv8l"         // ARM Linux (RPi 4+, modern Android)
-  | "Linux i686"           // Legacy 32-bit Linux
-  | "iPhone"               // iOS phones
-  | "iPad"                 // iOS tablets
-  | "Android"              // Generic Android (deprecated in modern browsers)
-  | "Android armv8l"       // Modern Android ARM
-  | "Android x86_64"       // ChromeOS/Android x86
-  | "FreeBSD amd64"        // BSD variants
-  | "CrOS x86_64";         // ChromeOS
+export type Platform = (typeof KNOWN_PLATFORMS)[number];
+export type DeviceMemory = (typeof KNOWN_MEMORY_VALUES)[number];
 
   export type PermissionName =
   | "geolocation"
@@ -50,8 +40,8 @@ export interface Display {
 
 export interface Hardware {
     concurrency: number;
-    deviceMemory?: number; // 0.25, 0.5, 1, 2, 4, 8
-    maxTouchPoints: number;
+    deviceMemory?: DeviceMemory; // 0.25, 0.5, 1, 2, 4, 8  *not displayed in Firefox
+    maxTouchPoints: number; // spoof 0 for desktop, 5-10 for mobile and tablet
     battery?: {
         level: number;
         charging: boolean;
@@ -65,21 +55,21 @@ export interface BrowserIdentity {
     userAgent: string;
     platform: Platform;
     vendor: string;
-    oscpu: string;
+    oscpu?: string; // only exposed by Firefox!
     appName: "Netscape";
     appVersion: string;
     product: "Gecko";
-    productSub: string;
+    productSub: "20030107" | "20100101"; // 20030107 for Chrome/Edge, 2010010 for Firefox
 }
 
 // ======================
 // LOCALIZATION
 // ======================
 export interface Localization {
-    language: Language;
+    language: string;
+    languages: Languages
     timezone: string;
     locale: string;
-    locales: string[];
 }
 
 // ======================
@@ -110,7 +100,7 @@ export interface WebGLFingerprint {
     vendor: string;
     shadingLanguageVersion: string;
     parameters: Record<string, any>;
-    noiseSeed: number; // For subtle variations
+    noiseSeed: number;
 }
 
 export interface CanvasFingerprint {
