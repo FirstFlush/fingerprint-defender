@@ -1,4 +1,4 @@
-
+import { DetectedCanvasFingerprint } from "@/types/detectedEnvironment";
 
 /**
  * Runs a canvas winding rule test to detect how the browser handles overlapping shape fills.
@@ -35,10 +35,10 @@ const textRendering = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)
   
 }
 
-export const detectCanvasFingerPrint = () => {
+export const getCanvasFingerPrint = (): DetectedCanvasFingerprint => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    if (!ctx) return null;
+    if (!ctx) throw new TypeError("Can not get 2d context from canvas element for canvas fingerprinting!")
     const winding = windingRuleTest(ctx);
     const text = textRendering(canvas, ctx);
     return {
