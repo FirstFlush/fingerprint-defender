@@ -1,72 +1,39 @@
 import { Hardware, Display, BrowserIdentity, Localization, WebGLFingerprint,
-  CanvasFingerprint, AudioFingerprint, FontFingerprint, NetworkInfo, StorageInfo,
-  SensorAccess
+  CanvasFingerprint, AudioFingerprint, FontFingerprint, NetworkFingerprint, StorageInfo,
+  SensorAccess, PrivacySignals, MediaCapabilities, PerformanceTiming, DeviceType
  } from "./environment";
 
-export type DetectedAudioFingerprint = {
-
-}
-
-
-
-export type DetectedDisplay = Omit<Display, "colorDepth" | "pixelDepth" | "orientation">
-export type DetectedHardware = Omit<Hardware, "battery">; 
-export type DetectedWebGLFingerprint = Omit<WebGLFingerprint, "noiseSeed">
-
-export type DetectedBrowser = Pick<BrowserIdentity,
-  "userAgent" |  "vendor" | "oscpu"
-> & {
-  platform: string;
-} ;
-// TODO check if userAgentData is relevant. if so, add it to the main environment.
-// & { 
-//   userAgentData?: {
-//     brands: { brand: string; version: string }[];
-//     mobile: boolean;
-//     platform: string;
-//   };
-// };
-
-
-export type DetectedCanvasFingerPrint = Omit<CanvasFingerprint, "noiseProfile">
-
+export type DetectedAudioFingerprint = Pick<AudioFingerprint, "context">;
+export type DetectedBrowserIdentity = Omit<BrowserIdentity, "platform" | "appName" | "product" | "productSub">
+  & { platform: string, appName: string, product: string, productSub: string };
+export type DetectedCanvasFingerprint = Omit<CanvasFingerprint, "noiseProfile">;
+export type DetectedDeviceType = DeviceType;
+export type DetectedDisplay = Omit<Display, "colorDepth" | "pixelDepth" | "orientation">;
+export type DetectedFontFingerprint = Omit<FontFingerprint, "measurementNoise">;
+export type DetectedHardware = Omit<Hardware, "battery">;
 export type DetectedLocalization = Pick<Localization, "languages" | "timezone">;
+export type DetectedMediaCapabilities = Omit<MediaCapabilities, "permissions"> 
+  & { permissions?: Partial<Record<PermissionName, PermissionState>> };
+export type DetectedNetworkFingerprint = Pick<NetworkFingerprint, "connection">;
+export type DetectedPerformanceTiming = PerformanceTiming;
+export type DetectedPrivacySignals = PrivacySignals;
+export type DetectedStorageInfo = StorageInfo;
+export type DetectedSensorAccess = SensorAccess;
+export type DetectedWebGLFingerprint = Omit<WebGLFingerprint, "noiseSeed">;
 
-export type DetectedEnvironment = {
-  // Core
-  browser: DetectedBrowser;
-  display: DetectedDisplay;
-  hardware: DetectedHardware;
-  localization: DetectedLocalization;
-  
-  // Advanced Fingerprinting
-  webGL: {
-    renderer: string;
-    vendor: string;
-  };
-  fonts: string[]; // Actual font list
-  
-  // Behavioral
-  touchSupport: {
-    maxTouchPoints: number;
-    touchEventSupport: boolean;
-  };
-  
-  // Privacy Signals
-  doNotTrack: string | null;
-  cookieEnabled: boolean;
+export interface DetectedEnvironment {
+  audioFingerprint: DetectedAudioFingerprint
+  browserIdentity: DetectedBrowserIdentity
+  canvasFingerprint: DetectedCanvasFingerprint
+  display: DetectedDisplay
+  fontFingerprint: DetectedFontFingerprint
+  hardware: DetectedHardware
+  localization: DetectedLocalization
+  mediaCapabilities: DetectedMediaCapabilities
+  networkInfo: DetectedNetworkFingerprint
+  performanceTiming: DetectedPerformanceTiming
+  privacySignals: DetectedPrivacySignals
+  storageInfo: DetectedStorageInfo
+  sensorAccess: DetectedSensorAccess
+  webGLFingerprint: DetectedWebGLFingerprint
 };
-
-
-
-
-
-
-// export type DetectedScreen = Pick<Display, "width" | "height" | "devicePixelRatio">;
-// export type DetectedEnvironment = Pick<
-//     Environment,
-//     "deviceType" | "localization" | "hardware"
-// > & {
-//     display: DetectedScreen;
-//     browser: Pick<BrowserIdentity, "userAgent" | "platform">;
-// };

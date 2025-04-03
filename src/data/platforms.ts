@@ -1,5 +1,5 @@
 
-export const KNOWN_PLATFORMS: string[] = [
+export const KNOWN_PLATFORMS = [
     "Win32",               // Windows (32-bit & 64-bit)
     "Win64",               // Rare, but exists in some Edge versions
     "MacIntel",            // Intel Macs (pre-M1)
@@ -14,4 +14,14 @@ export const KNOWN_PLATFORMS: string[] = [
     "Android x86_64",      // ChromeOS/Android x86
     "FreeBSD amd64",       // BSD variants
     "CrOS x86_64",        // ChromeOS 
+] as const;
+
+export const KNOWN_UAD_PLATFORMS = [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Chrome OS",
+    "Android",
+    "iOS",
+    "Unknown",
 ] as const;

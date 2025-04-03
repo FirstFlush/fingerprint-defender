@@ -1,5 +1,7 @@
-import { KNOWN_PLATFORMS } from "@/data/platforms";
+import { KNOWN_PLATFORMS, KNOWN_UAD_PLATFORMS } from "@/data/platforms";
 import { KNOWN_MEMORY_VALUES } from "@/data/hardware";
+import { KNOWN_EFFECTIVE_TYPES } from "@/data/network";
+import { KNOWN_PERMISSIONS } from "@/data/permissions";
 
 // ======================
 // CORE TYPES
@@ -7,19 +9,24 @@ import { KNOWN_MEMORY_VALUES } from "@/data/hardware";
 export type DeviceType = "mobile" | "tablet" | "desktop";
 export type Languages = [string, ...string[]];
 export type MimeType = { type: string; description: string };
+export type PermissionName = (typeof KNOWN_PERMISSIONS)[number];
 export type Plugin = { name: string; filename: string };
 export type Platform = (typeof KNOWN_PLATFORMS)[number];
 export type DeviceMemory = (typeof KNOWN_MEMORY_VALUES)[number];
+export type EffectiveType = (typeof KNOWN_EFFECTIVE_TYPES)[number];
+export type UserAgentDataPlatform = (typeof KNOWN_UAD_PLATFORMS)[number];
 
-  export type PermissionName =
-  | "geolocation"
-  | "notifications"
-  | "camera"
-  | "microphone"
-  | "persistent-storage"
-  | "midi"
-  | "clipboard-read"
-  | "clipboard-write";
+export interface UserAgentData {                // Used by Chrome
+    brands: { brand: string, version: string }[];
+    mobile: boolean;
+    platform: UserAgentDataPlatform;
+}
+
+export interface NetworkInformation {           // navigator.connection object. Undefined on Firefox
+    downlink: number;
+    effectiveType: EffectiveType;
+    rtt: number;
+};
 
 // ======================
 // HARDWARE & DISPLAY
@@ -40,8 +47,8 @@ export interface Display {
 
 export interface Hardware {
     concurrency: number;
-    deviceMemory?: DeviceMemory; // 0.25, 0.5, 1, 2, 4, 8  *not displayed in Firefox
-    maxTouchPoints: number; // spoof 0 for desktop, 5-10 for mobile and tablet
+    deviceMemory?: DeviceMemory;            // 0.25, 0.5, 1, 2, 4, 8  *not displayed in Firefox
+    maxTouchPoints: number;                 // spoof 0 for desktop, 5-10 for mobile and tablet
     battery?: {
         level: number;
         charging: boolean;
@@ -55,11 +62,12 @@ export interface BrowserIdentity {
     userAgent: string;
     platform: Platform;
     vendor: string;
-    oscpu?: string; // only exposed by Firefox!
+    oscpu?: string;                         // Used by Firefox
     appName: "Netscape";
-    appVersion: string;
+    appVersion: string;                     // deprecated alias for userAgent
     product: "Gecko";
-    productSub: "20030107" | "20100101"; // 20030107 for Chrome/Edge, 2010010 for Firefox
+    productSub: "20030107" | "20100101";    // 20030107 for Chrome/Edge, 2010010 for Firefox
+    userAgentData?: UserAgentData           // Used by Chrome
 }
 
 // ======================
@@ -77,9 +85,9 @@ export interface Localization {
 // ======================
 export interface PrivacySignals {
     doNotTrack: string | null;
-    globalPrivacyControl: boolean;
+    globalPrivacyControl?: boolean;         // used by Firefox
     cookieEnabled: boolean;
-    permissions?: Record<PermissionName, PermissionState>;
+    permissions?: Record<PermissionName, PermissionState>;  // must use permissions.query() in firefox. chrome supports. safari does not support.
 }
 
 // ======================
@@ -132,20 +140,16 @@ export interface FontFingerprint {
 // ======================
 // NETWORK & STORAGE
 // ======================
-export interface NetworkInfo {
-    connection?: {
-        downlink: number;
-        effectiveType: "slow-2g" | "2g" | "3g" | "4g";
-        rtt: number;
-    };
+export interface NetworkFingerprint {
+    connection?: NetworkInformation
     webRTC: {
-        ipLeakProtection: boolean;
+        leaksInternalIP: boolean;
     };
 }
 
 export interface StorageInfo {
-    quota: number;
-    usage: number;
+    quota?: number;                         // Extremely rare for quota or usage to be undefined, but possible according to MDN:  
+    usage?: number;                         // https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/estimate#specifications
     persistence: boolean;
 }
 
@@ -159,41 +163,28 @@ export interface SensorAccess {
     motionAccess: boolean;
 }
 
+export interface PerformanceTiming {
+    timeOrigin: number;
+    clockDrift: number;
+  }
+
 // ======================
 // MASTER ENVIRONMENT
 // ======================
 export interface Environment {
-    // Core Identity
     browser: BrowserIdentity;
     deviceType: DeviceType;
-    
-    // Hardware/Display
     display: Display;
     hardware: Hardware;
-    
-    // Localization
     localization: Localization;
-    
-    // Privacy
     privacy: PrivacySignals;
-    
-    // Media
     media: MediaCapabilities;
-    
-    // Advanced Fingerprinting
     webgl: WebGLFingerprint;
     canvas: CanvasFingerprint;
     audio: AudioFingerprint;
     fonts: FontFingerprint;
-    
-    // System Capabilities
-    network: NetworkInfo;
+    network: NetworkFingerprint;
     storage: StorageInfo;
     sensors: SensorAccess;
-    
-    // Timestamps
-    performanceTiming: {
-        timeOrigin: number;
-        clockDrift: number;
-    };
+    performanceTiming: PerformanceTiming;
 }
