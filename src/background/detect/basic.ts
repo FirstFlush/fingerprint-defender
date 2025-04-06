@@ -39,9 +39,7 @@ export const getBrowserIdentity = (): DetectedBrowserIdentity => {
     };
 };
 
-export const getDeviceType = ({
-    width,
-}: DetectedDisplay): DetectedDeviceType => {
+export const getDeviceType = ({ width }: DetectedDisplay): DetectedDeviceType => {
     if (width < 768) return "mobile";
     else if (width < 1024) return "tablet";
     else return "desktop";

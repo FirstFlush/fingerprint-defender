@@ -133,7 +133,6 @@ export interface AudioFingerprint {
 
 export interface FontFingerprint {
     installed: string[];
-    rendered: string[];
     measurementNoise: number;
 }
 
