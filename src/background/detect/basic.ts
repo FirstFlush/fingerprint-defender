@@ -130,11 +130,24 @@ export const getSensorAccess = (): DetectedSensorAccess => {
 }
 
 export const getStorageInfo = async (): Promise<DetectedStorageInfo> => {
+
+    if (!navigator.storage?.estimate) {
+        return {
+            estimate: {
+                quota: undefined,
+                usage: undefined,    
+            },
+            persistence: false,
+        }
+    }
+
     const estimate = await navigator.storage.estimate()
     const persistence = await navigator.storage.persist()
     return {
-        quota: estimate.quota,
-        usage: estimate.usage,
+        estimate: {
+            quota: estimate.quota,
+            usage: estimate.usage,
+        },
         persistence: persistence,
     }
 }

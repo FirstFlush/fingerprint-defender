@@ -1,8 +1,7 @@
 import { DetectedFontFingerprint } from "@/types/detectedEnvironment";
 import { FONTS } from "@/data/fonts";
+import { TEST_SIZE, TEST_STRING } from "@/data/fingerprintConstants";
 
-const TEST_STRING = "mmmmmmmmmmlli"; // wide & narrow letters for best accuracy. https://virpo.sk/browser-fingerprinting-hraska-diploma-thesis.pdf
-const TEST_SIZE = "72px"; // large for precision
 const BASELINE_FONTS = ["monospace", "sans-serif"];
 
 const createSpan = (font: string): HTMLSpanElement => {

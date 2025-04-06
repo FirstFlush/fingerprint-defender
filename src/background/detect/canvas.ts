@@ -1,4 +1,5 @@
 import { DetectedCanvasFingerprint } from "@/types/detectedEnvironment";
+import { TEST_SIZE, TEST_STRING } from "@/data/fingerprintConstants";
 
 /**
  * Runs a canvas winding rule test to detect how the browser handles overlapping shape fills.
@@ -26,11 +27,11 @@ const windingRuleTest = (ctx: CanvasRenderingContext2D): boolean => {
  */
 const textRendering = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): string => {
     ctx.textBaseline = "top";
-    ctx.font = "14px 'Arial'";      
+    ctx.font = `${TEST_SIZE} 'Arial'`;      
     ctx.fillStyle = "#f60";
     ctx.fillRect(125, 1, 62, 20);
     ctx.fillStyle = "#069";
-    ctx.fillText("Fingerprint!", 2, 15);
+    ctx.fillText(TEST_STRING, 2, 15);
     return canvas.toDataURL();
   
 }

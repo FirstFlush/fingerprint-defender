@@ -28,6 +28,11 @@ export interface NetworkInformation {           // navigator.connection object. 
     rtt: number;
 };
 
+export interface StorageEstimate {              
+    quota?: number;                             // Extremely rare for quota or usage to be undefined, but possible according to MDN: 
+    usage?: number;                             // https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/estimate#specifications
+}
+
 // ======================
 // HARDWARE & DISPLAY
 // ======================
@@ -146,9 +151,8 @@ export interface NetworkFingerprint {
     };
 }
 
-export interface StorageInfo {
-    quota?: number;                         // Extremely rare for quota or usage to be undefined, but possible according to MDN:  
-    usage?: number;                         // https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/estimate#specifications
+export interface StorageInfo {              // navigator.storage can be undefined in non-HTTPS, non-localhost contexts.
+    estimate: StorageEstimate;
     persistence: boolean;
 }
 
