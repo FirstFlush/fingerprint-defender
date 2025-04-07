@@ -2,7 +2,7 @@ import { KNOWN_PLATFORMS, KNOWN_UAD_PLATFORMS } from "@/data/platforms";
 import { KNOWN_MEMORY_VALUES } from "@/data/hardware";
 import { KNOWN_EFFECTIVE_TYPES } from "@/data/network";
 import { KNOWN_PERMISSIONS } from "@/data/permissions";
-
+import { COMMON_HARDWARE_CONCURRENCY_VALUES } from "@/data/hardware";
 // ======================
 // CORE TYPES
 // ======================
@@ -16,6 +16,21 @@ export type DeviceMemory = (typeof KNOWN_MEMORY_VALUES)[number];
 export type EffectiveType = (typeof KNOWN_EFFECTIVE_TYPES)[number];
 export type UserAgentDataPlatform = (typeof KNOWN_UAD_PLATFORMS)[number];
 export type ProductSub = "20030107" | "20100101";   // 20030107 for Chrome/Edge/Safari, 2010010 for Firefox
+export type HardwareConcurrency = (typeof COMMON_HARDWARE_CONCURRENCY_VALUES)[number]
+
+export interface BatteryManager {
+    level: number;
+    charging: boolean;
+    chargingTime: number;
+    dischargingTime: number;                    // typeof Infinity for spoofing
+    onchargingchange: (() => void) | null;
+    onlevelchange: (() => void) | null;
+    onchargingtimechange: (() => void) | null;
+    ondischargingtimechange: (() => void) | null;
+    addEventListener: (type: string, listener: EventListenerOrEventListenerObject) => void;
+    removeEventListener: (type: string, listener: EventListenerOrEventListenerObject) => void;
+    dispatchEvent: (event: Event) => boolean;
+  }
 
 export interface UserAgentData {                // Used by Chrome
     brands: { brand: string, version: string }[];
@@ -55,10 +70,7 @@ export interface Hardware {
     concurrency: number;
     deviceMemory?: DeviceMemory;            // 0.25, 0.5, 1, 2, 4, 8  *undefined in Firefox. undefined in chrome in non-HTTPS, non-localhost contexts
     maxTouchPoints: number;                 // spoof 0 for desktop, 5-10 for mobile and tablet
-    battery?: {
-        level: number;
-        charging: boolean;
-    };
+    battery?: BatteryManager;
 }
 
 // ======================
