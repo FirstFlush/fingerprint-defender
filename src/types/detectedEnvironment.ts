@@ -29,7 +29,7 @@ export type DetectedDisplay = Omit<
 >;
 export type DetectedFontFingerprint = Pick<FontFingerprint, "installed">;
 export type DetectedHardware = Omit<Hardware, "battery">;
-export type DetectedLocalization = Pick<Localization, "languages" | "timezone">;
+export type DetectedLocalization = Pick<Localization, "languages" | "timezone" | "timezoneOffset">;
 export type DetectedMediaCapabilities = MediaCapabilities;
 export type DetectedNetworkFingerprint = Pick<NetworkFingerprint, "connection">;
 export type DetectedPerformanceTiming = PerformanceTiming;

@@ -95,6 +95,7 @@ export interface Localization {
     language: string;
     languages: Languages
     timezone: string;
+    timezoneOffset: number;
     locale: string;
 }
 

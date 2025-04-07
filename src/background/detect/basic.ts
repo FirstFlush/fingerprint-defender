@@ -65,9 +65,11 @@ export const getHardware = (): DetectedHardware => {
 };
 
 export const getLocalization = (): DetectedLocalization => {
+    const tz = moment.tz.guess()
     return {
         languages: [...navigator.languages] as [string, ...string[]],
-        timezone: moment.tz.guess(),
+        timezone: tz,
+        timezoneOffset: moment.tz(tz).utcOffset(),
     };
 };
 
