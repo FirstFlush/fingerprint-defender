@@ -15,6 +15,7 @@ export type Platform = (typeof KNOWN_PLATFORMS)[number];
 export type DeviceMemory = (typeof KNOWN_MEMORY_VALUES)[number];
 export type EffectiveType = (typeof KNOWN_EFFECTIVE_TYPES)[number];
 export type UserAgentDataPlatform = (typeof KNOWN_UAD_PLATFORMS)[number];
+export type ProductSub = "20030107" | "20100101";   // 20030107 for Chrome/Edge/Safari, 2010010 for Firefox
 
 export interface UserAgentData {                // Used by Chrome
     brands: { brand: string, version: string }[];
@@ -22,7 +23,7 @@ export interface UserAgentData {                // Used by Chrome
     platform: UserAgentDataPlatform;
 }
 
-export interface NetworkInformation {           // navigator.connection object. Undefined on Firefox
+export interface NetworkInformation {           // navigator.connection object. Undefined on Firefox & Safari
     downlink: number;
     effectiveType: EffectiveType;
     rtt: number;
@@ -45,14 +46,14 @@ export interface Display {
     pixelDepth: number;
     devicePixelRatio: number;
     orientation?: {
-        type: "portrait" | "landscape";
+        type: OrientationType;
         angle: number;
     };
 }
 
 export interface Hardware {
     concurrency: number;
-    deviceMemory?: DeviceMemory;            // 0.25, 0.5, 1, 2, 4, 8  *not displayed in Firefox
+    deviceMemory?: DeviceMemory;            // 0.25, 0.5, 1, 2, 4, 8  *undefined in Firefox. undefined in chrome in non-HTTPS, non-localhost contexts
     maxTouchPoints: number;                 // spoof 0 for desktop, 5-10 for mobile and tablet
     battery?: {
         level: number;
@@ -71,7 +72,7 @@ export interface BrowserIdentity {
     appName: "Netscape";
     appVersion: string;                     // deprecated alias for userAgent
     product: "Gecko";
-    productSub: "20030107" | "20100101";    // 20030107 for Chrome/Edge, 2010010 for Firefox
+    productSub: ProductSub;                 
     userAgentData?: UserAgentData           // Used by Chrome
 }
 

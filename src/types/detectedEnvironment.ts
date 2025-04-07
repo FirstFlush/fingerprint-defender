@@ -44,7 +44,7 @@ export interface DetectedEnvironment {
     audioFingerprint: DetectedAudioFingerprint;
     browserIdentity: DetectedBrowserIdentity;
     canvasFingerprint: DetectedCanvasFingerprint;
-    deviceType: DeviceType;
+    deviceType: DetectedDeviceType;
     display: DetectedDisplay;
     fontFingerprint: DetectedFontFingerprint;
     hardware: DetectedHardware;

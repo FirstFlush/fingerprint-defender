@@ -1,5 +1,3 @@
-
-
 // A blend of wide ('m') and narrow ('l', 'i') characters reveals subtle rendering differences.
 // Helps detect variations in font smoothing, kerning, and rasterization across systems.
 // Sources:
