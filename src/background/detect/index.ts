@@ -18,7 +18,7 @@ import { getFontFingerprint } from "./font";
 import { getWebGLFingerprint } from "./webgl";
 
 
-export const detectEnvironment = async (): Promise<DetectedEnvironment> => {
+const detectEnvironment = async (): Promise<DetectedEnvironment> => {
 
     const display = getDisplay();
 
@@ -40,3 +40,5 @@ export const detectEnvironment = async (): Promise<DetectedEnvironment> => {
         webGLFingerprint: getWebGLFingerprint(),
     }
 };
+
+export default detectEnvironment;
