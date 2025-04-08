@@ -4,15 +4,17 @@ import { inferBrowser } from "./inferBrowser";
 import { spoofBrowserIdentity } from "./browserIdentity";
 import { spoofDisplay } from "./display";
 import { spoofHardware } from "./hardware";
+import { spoofLocalization } from "@/types/localization";
 
-const spoofEnvironment = async (environment: DetectedEnvironment): Promise<Environment> => {
+const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promise<Environment> => {
 
-    const inferredBrowser = inferBrowser(environment.deviceType);
+    const inferredBrowser = inferBrowser(detectedEnvironment.deviceType);
 
     return {
         browser: spoofBrowserIdentity(inferredBrowser),
         display: spoofDisplay(inferredBrowser),
         hardware: await spoofHardware(inferredBrowser),
+        localization: spoofLocalization(detectedEnvironment.localization),
     }
 }
 

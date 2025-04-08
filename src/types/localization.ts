@@ -5,15 +5,15 @@ import { TZ_REGIONS, TZ_VALID_ATLANTIC, TZ_AWARE_LANGUAGES, TZ_VALID_PACIFIC } f
 import { TzRegion } from "./timezone";
 
 
-const getTzRegion = (timezone: string): TzRegion => {
-    if (timezone.startsWith("Africa/")) return "Africa"
-    else if (timezone.startsWith("America/")) return "America";
-    else if (timezone.startsWith("Atlantic/")) return "Atlantic"
-    else if (timezone.startsWith("Asia/")) return "Asia"
-    else if (timezone.startsWith("Europe/")) return "Europe"
-    else if (timezone.startsWith("Pacific/")) return "Pacific"
-    else if (timezone.startsWith("Australia/")) return "Australia"
-    else throw new Error(`Unknown timezone: ${timezone}`);
+const getTzRegion = (tz: string): TzRegion => {
+    if (tz.startsWith("Africa/")) return "Africa"
+    else if (tz.startsWith("America/")) return "America";
+    else if (tz.startsWith("Atlantic/")) return "Atlantic"
+    else if (tz.startsWith("Asia/")) return "Asia"
+    else if (tz.startsWith("Europe/")) return "Europe"
+    else if (tz.startsWith("Pacific/")) return "Pacific"
+    else if (tz.startsWith("Australia/")) return "Australia"
+    else throw new Error(`Unknown timezone: ${tz}`);
 };
 
 
@@ -42,7 +42,21 @@ const getTzAwareLanguage = (
     const length = TZ_AWARE_LANGUAGES[langRegion].length 
     return langs[Math.floor(Math.random() * length)]
 };
-
+    
+const adjustLanguages = (languages: string[], tz: string, tzOffset: number) => {
+    while( languages.length > 2) {
+        languages.pop()
+    }
+    if (languages.length === 2 && Math.random() < 0.5) {
+        languages.pop();
+    }
+    if (languages.length < 3) {
+        const tzAwareLanguage = getTzAwareLanguage(tz, tzOffset)
+        if (!languages.includes(tzAwareLanguage) && Math.random() < 0.5) {
+            languages.push(tzAwareLanguage);
+        }
+    }
+}
 
 const getSpoofedTz = (offset: number): string => {
     const tzOptions = moment.tz.names().filter((name) => {
@@ -60,52 +74,52 @@ const getSpoofedTz = (offset: number): string => {
     return tzOptions[Math.floor(Math.random() * tzOptions.length)];
 };
 
-
-const spoofTz = (offset: number) => {
-
-    const newTz = getSpoofedTz(offset)
-    const originalResolvedOptions = Intl.DateTimeFormat.prototype.resolvedOptions;
+const overrideTz = (timezone: string): void => {
+    const original = Intl.DateTimeFormat.prototype.resolvedOptions;
     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
         value: function () {
-            return {
-                ...originalResolvedOptions.call(this),
-                timeZone: newTz,
-            };
+            return { ...original.call(this), timeZone: timezone };
         },
         configurable: true,
     });
 };
 
+const overrideLanguages = (languages: string[]) => {
 
-const addLanguage = (language: string, languages: [string, ...string[]]) => {
-    languages.push(language);
-}
-
-const removeLanguage = (languages: string[]) => {
-    languages.pop()
-}
-    
-const adjustLanguages 
-
-
-const spoofLanguages = (detectedLangauges: Languages) => {
-    const langs = [...detectedLangauges];
-
-
-
-    Object.defineProperty(navigator, "langauges", {
-        get: () => spoofedLanguages,
+    Object.defineProperty(navigator, "languages", {
+        get: () => {
+            const expanded = languages.flatMap(lang => {
+                const base = lang.split("-")[0];
+                return lang !== base ? [lang, base] : [lang];
+            });
+            return expanded;
+        },
         configurable: true,
-    });
-};
+    })
+}
 
+const overrideLanguage = (languages: string[]) => {
+    Object.defineProperty(navigator, "language", {
+        get: () => {
+            return languages[0]
+        }
+    })
+}
+
+export const overrideLocale = () => {
+
+}
 
 
 export const spoofLocalization = (
     detectedLocalization: DetectedLocalization
 ): Localization => {
-    spoofTimeZone(detectedLocalization.timezoneOffset);
-
+    const spoofedTz = getSpoofedTz(detectedLocalization.timezoneOffset);
+    overrideTz(spoofedTz);
+    const languages = [...detectedLocalization.languages];
+    adjustLanguages(languages, spoofedTz, detectedLocalization.timezoneOffset);
+    overrideLanguages(languages);
+    overrideLanguage(languages);
     return {
         timezone: Intl.DateTimeFormat.prototype.resolvedOptions().timeZone,
         timezoneOffset: detectedLocalization.timezoneOffset,
@@ -115,9 +129,4 @@ export const spoofLocalization = (
     };
 };
 
-// export interface Localization {
-//     language: string;
-//     languages: Languages
-//     timezone: string;
-//     timezoneOffset: number;
-// }
+
