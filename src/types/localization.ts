@@ -106,8 +106,17 @@ const overrideLanguage = (languages: string[]) => {
     })
 }
 
-export const overrideLocale = () => {
-
+export const overrideLocale = (languages: string[]) => {
+    const original = Intl.DateTimeFormat.prototype.resolvedOptions;
+    Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
+      value: function () {
+        return {
+          ...original.call(this),
+          locale: languages[0],
+        };
+      },
+      configurable: true,
+    });
 }
 
 
@@ -120,6 +129,7 @@ export const spoofLocalization = (
     adjustLanguages(languages, spoofedTz, detectedLocalization.timezoneOffset);
     overrideLanguages(languages);
     overrideLanguage(languages);
+    overrideLocale(languages);
     return {
         timezone: Intl.DateTimeFormat.prototype.resolvedOptions().timeZone,
         timezoneOffset: detectedLocalization.timezoneOffset,

@@ -33,9 +33,10 @@ export type DetectedLocalization = Pick<Localization, "languages" | "timezone" |
 export type DetectedMediaCapabilities = MediaCapabilities;
 export type DetectedNetworkFingerprint = Pick<NetworkFingerprint, "connection">;
 export type DetectedPerformanceTiming = PerformanceTiming;
-export type DetectedPrivacySignals = Omit<PrivacySignals, "permissions"> & {
-    permissions?: Partial<Record<PermissionName, PermissionState>>;
-};
+export type DetectedPrivacySignals = PrivacySignals;
+// export type DetectedPrivacySignals = Omit<PrivacySignals, "permissions"> & {
+//     permissions?: Partial<Record<PermissionName, PermissionState>>;
+// };
 export type DetectedStorageInfo = StorageInfo;
 export type DetectedSensorAccess = SensorAccess;
 export type DetectedWebGLFingerprint = Omit<WebGLFingerprint, "noiseSeed">;
