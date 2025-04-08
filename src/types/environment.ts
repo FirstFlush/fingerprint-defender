@@ -7,7 +7,7 @@ import { COMMON_HARDWARE_CONCURRENCY_VALUES } from "@/data/hardware";
 // CORE TYPES
 // ======================
 export type DeviceType = "mobile" | "tablet" | "desktop";
-export type Languages = [string, ...string[]];
+export type Languages = readonly [string, ...string[]];
 export type MimeType = { type: string; description: string };
 export type PermissionName = (typeof KNOWN_PERMISSIONS)[number];
 export type Plugin = { name: string; filename: string };
@@ -93,7 +93,7 @@ export interface BrowserIdentity {
 // ======================
 export interface Localization {
     language: string;
-    languages: Languages
+    languages: Languages;
     timezone: string;
     timezoneOffset: number;
     locale: string;
