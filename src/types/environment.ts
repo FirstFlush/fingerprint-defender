@@ -1,4 +1,5 @@
 import { KNOWN_PLATFORMS, KNOWN_UAD_PLATFORMS } from "@/data/platforms";
+import { MimeType, Plugin } from "./media";
 import { KNOWN_MEMORY_VALUES } from "@/data/hardware";
 import { KNOWN_EFFECTIVE_TYPES } from "@/data/network";
 import { KNOWN_PERMISSIONS } from "@/data/permissions";
@@ -8,9 +9,7 @@ import { COMMON_HARDWARE_CONCURRENCY_VALUES } from "@/data/hardware";
 // ======================
 export type DeviceType = "mobile" | "tablet" | "desktop";
 export type Languages = readonly [string, ...string[]];
-export type MimeType = { type: string; description: string };
 export type PermissionName = (typeof KNOWN_PERMISSIONS)[number];
-export type Plugin = { name: string; filename: string };
 export type Platform = (typeof KNOWN_PLATFORMS)[number];
 export type DeviceMemory = (typeof KNOWN_MEMORY_VALUES)[number];
 export type EffectiveType = (typeof KNOWN_EFFECTIVE_TYPES)[number];
@@ -113,7 +112,7 @@ export interface PrivacySignals {
 // MEDIA CAPABILITIES
 // ======================
 export interface MediaCapabilities {
-    devices: MediaDeviceInfo[];
+    mediaDevices: MediaDeviceInfo[];
     mimeTypes: MimeType[];
     plugins: Plugin[];
     pdfViewerEnabled: boolean;
@@ -189,19 +188,19 @@ export interface PerformanceTiming {
 // MASTER ENVIRONMENT
 // ======================
 export interface Environment {
+    audio: AudioFingerprint;
     browser: BrowserIdentity;
+    canvas: CanvasFingerprint;
     deviceType: DeviceType;
     display: Display;
+    fonts: FontFingerprint;
     hardware: Hardware;
     localization: Localization;
-    privacy: PrivacySignals;
     media: MediaCapabilities;
-    webgl: WebGLFingerprint;
-    canvas: CanvasFingerprint;
-    audio: AudioFingerprint;
-    fonts: FontFingerprint;
     network: NetworkFingerprint;
-    storage: StorageInfo;
-    sensors: SensorAccess;
     performanceTiming: PerformanceTiming;
+    privacy: PrivacySignals;
+    sensors: SensorAccess;
+    storage: StorageInfo;
+    webgl: WebGLFingerprint;
 }

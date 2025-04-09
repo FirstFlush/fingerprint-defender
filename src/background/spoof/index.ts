@@ -14,9 +14,10 @@ const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promi
     return {
         browser: spoofBrowserIdentity(inferredBrowser),
         display: spoofDisplay(inferredBrowser),
+        deviceType: inferredBrowser.deviceType,
         hardware: await spoofHardware(inferredBrowser),
         localization: spoofLocalization(detectedEnvironment.localization),
-        privacySignals: await spoofPrivacySignals(inferredBrowser),
+        privacy: await spoofPrivacySignals(inferredBrowser),
     }
 }
 
