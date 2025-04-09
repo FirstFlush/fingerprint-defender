@@ -9,3 +9,7 @@ export const KNOWN_EFFECTIVE_TYPES = [
     "3g",
     "4g",
 ] as const;
+
+export const SPOOFED_EFFECTIVE_TYPES = [
+    "4g",
+] as const;

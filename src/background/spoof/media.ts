@@ -1,6 +1,6 @@
 import { MediaCapabilities } from "@/types/environment"
 import { CommonBrowser } from "@/types/inferredBrowser"
-import { Plugin, PluginInternal, PluginId, MimeType, MediaDevice } from "@/types/media"
+import { Plugin, PluginInternal, MimeType, MediaDevice, DeviceKind, MediaDeviceTemplate } from "@/types/media"
 import { COMMON_PLUGINS, COMMON_MIME_TYPES } from "@/data/media"
 
 const createInternalPlugins = (browser: CommonBrowser): PluginInternal[] => {
@@ -24,7 +24,9 @@ const createMimeTypes = (browser: CommonBrowser, plugins: PluginInternal[]): Mim
     for (const mimeType of COMMON_MIME_TYPES) {
         const plugin = COMMON_PLUGINS.find(p => p.id === mimeType.pluginId && plugins.includes(p))
         if (!plugin) {
-            console.warn("Skipping MIME type because no corresponding plugin was found: ", mimeType)
+            if (process.env.NODE_ENV !== "production") {
+                console.warn("Skipping MIME type because no corresponding plugin was found: ", mimeType);
+            }
             continue
         }
         const { pluginId, ...rest} = mimeType
@@ -68,24 +70,61 @@ const spoofPdfViewerEnabled = () => {
     })
 }
 
-const createMediaDevices = (browser: CommonBrowser): MediaDevice[] => {
-
+const isInputDevice = (kind: string): boolean => {
+    if (kind === 'audioinput' || kind === 'videoinput') return true;
+    return false; 
 }
 
+/**
+ * Generates a minimal set of media devices for Firefox and Edge.
+ * These browsers return only basic device info with all sensitive fields
+ * (label, deviceId, groupId) hidden by default.
+ */
+const createDevicesMinimal = (browser: CommonBrowser): MediaDevice[] => {
+    const kinds: DeviceKind[] = ["audioinput", "videoinput"]
+    if (Math.random() < 0.5) kinds.push("audiooutput")
+    return kinds.map(kind => ({
+        kind,
+        label: "",
+        deviceId: "",
+        groupId: "",
+        toJSON() { return this; },
+        ...(isInputDevice(kind) && browser === "Chrome" ? { getCapabilities: () => ({}) } : {})
+    }))
+}
 
-export const spoofMediaCapabilities = (browser: CommonBrowser): MediaCapabilities => {
+const createMediaDevices = (browser: CommonBrowser): MediaDevice[] => {
+    if (browser === "Safari") 
+        return [];
+    return createDevicesMinimal(browser)
+}
+
+const spoofMediaDevices = (spoofedDevices: MediaDevice[]) => {
+    const original = navigator.mediaDevices
+    Object.defineProperty(navigator, "mediaDevices", {
+        configurable: true,
+        get: () => ({
+            ...original,
+            enumerateDevices: async () => spoofedDevices,
+        }),
+    })
+}
+
+export const spoofMediaCapabilities = async (browser: CommonBrowser): Promise<MediaCapabilities> => {
     const pluginsInternal = createInternalPlugins(browser)
     const mimeTypes = createMimeTypes(browser, pluginsInternal)
     const plugins = createPlugins(pluginsInternal);
+    const mediaDevices = createMediaDevices(browser);
 
     spoofNavigatorArray("plugins", plugins, "name");
     spoofNavigatorArray("mimeTypes", mimeTypes, "type");
-    spoofPdfViewerEnabled()
-
+    spoofPdfViewerEnabled();
+    spoofMediaDevices(mediaDevices);
+    
     return {
         plugins: plugins,
         mimeTypes: mimeTypes,
-        mediaDevices: ,
+        mediaDevices: await navigator.mediaDevices.enumerateDevices(),
         pdfViewerEnabled: navigator.pdfViewerEnabled,
     }
 

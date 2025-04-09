@@ -41,6 +41,8 @@ export interface NetworkInformation {           // navigator.connection object. 
     downlink: number;
     effectiveType: EffectiveType;
     rtt: number;
+    saveData: boolean;
+    onchange: null;
 };
 
 export interface StorageEstimate {              

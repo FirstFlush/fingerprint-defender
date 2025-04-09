@@ -6,6 +6,8 @@ import { spoofDisplay } from "./display";
 import { spoofHardware } from "./hardware";
 import { spoofLocalization } from "@/types/localization";
 import { spoofPrivacySignals } from "./privacySignals";
+import { spoofMediaCapabilities } from "./media";
+import { spoofNetwork } from "./network";
 
 const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promise<Environment> => {
 
@@ -18,6 +20,8 @@ const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promi
         hardware: await spoofHardware(inferredBrowser),
         localization: spoofLocalization(detectedEnvironment.localization),
         privacy: await spoofPrivacySignals(inferredBrowser),
+        media: await spoofMediaCapabilities(inferredBrowser.browser),
+        network: await spoofNetwork(inferredBrowser.browser),
     }
 }
 
