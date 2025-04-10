@@ -166,9 +166,9 @@ export interface NetworkFingerprint {
     };
 }
 
-export interface StorageInfo {              // navigator.storage can be undefined in non-HTTPS, non-localhost contexts.
+export interface StorageInfo {              // Undefined on Safari. Can be undefined in non-HTTPS, non-localhost contexts in Firefox/Chrome.
     estimate: StorageEstimate;
-    persistence: boolean;
+    persisted: boolean;
 }
 
 // ======================
@@ -203,6 +203,6 @@ export interface Environment {
     performanceTiming: PerformanceTiming;
     privacy: PrivacySignals;
     sensors: SensorAccess;
-    storage: StorageInfo;
+    storage?: StorageInfo;
     webgl: WebGLFingerprint;
 }

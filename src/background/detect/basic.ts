@@ -139,17 +139,17 @@ export const getStorageInfo = async (): Promise<DetectedStorageInfo> => {
                 quota: undefined,
                 usage: undefined,    
             },
-            persistence: false,
+            persisted: false,
         }
     }
 
     const estimate = await navigator.storage.estimate()
-    const persistence = await navigator.storage.persist()
+    const persisted = await navigator.storage.persist()
     return {
         estimate: {
             quota: estimate.quota,
             usage: estimate.usage,
         },
-        persistence: persistence,
+        persisted: persisted,
     }
 }
