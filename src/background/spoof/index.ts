@@ -4,7 +4,7 @@ import { inferBrowser } from "./inferBrowser";
 import { spoofBrowserIdentity } from "./browserIdentity";
 import { spoofDisplay } from "./display";
 import { spoofHardware } from "./hardware";
-import { spoofLocalization } from "@/types/localization";
+import { spoofLocalization } from "@/background/spoof/localization";
 import { spoofPrivacySignals } from "./privacySignals";
 import { spoofMediaCapabilities } from "./media";
 import { spoofNetwork } from "./network";

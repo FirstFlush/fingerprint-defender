@@ -1,9 +1,8 @@
 import moment from "moment-timezone";
-import { Localization, Languages } from "./environment";
-import { DetectedLocalization } from "./detectedEnvironment";
+import { Localization, Languages } from "../../types/environment";
+import { DetectedLocalization } from "../../types/detectedEnvironment";
 import { TZ_REGIONS, TZ_VALID_ATLANTIC, TZ_AWARE_LANGUAGES, TZ_VALID_PACIFIC } from "@/data/timezone";
-import { TzRegion } from "./timezone";
-
+import { TzRegion } from "../../types/timezone";
 
 const getTzRegion = (tz: string): TzRegion => {
     if (tz.startsWith("Africa/")) return "Africa"
@@ -15,7 +14,6 @@ const getTzRegion = (tz: string): TzRegion => {
     else if (tz.startsWith("Australia/")) return "Australia"
     else throw new Error(`Unknown timezone: ${tz}`);
 };
-
 
 const getTzAwareLanguage = (
     tz: string,
@@ -106,7 +104,7 @@ const overrideLanguage = (languages: string[]) => {
     })
 }
 
-export const overrideLocale = (languages: string[]) => {
+const overrideLocale = (languages: string[]) => {
     const original = Intl.DateTimeFormat.prototype.resolvedOptions;
     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
       value: function () {
@@ -118,7 +116,6 @@ export const overrideLocale = (languages: string[]) => {
       configurable: true,
     });
 }
-
 
 export const spoofLocalization = (
     detectedLocalization: DetectedLocalization
