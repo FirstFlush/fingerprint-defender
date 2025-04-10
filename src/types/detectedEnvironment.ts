@@ -14,6 +14,7 @@ import {
     MediaCapabilities,
     PerformanceTiming,
     DeviceType,
+    NetworkInformation,
 } from "./environment";
 
 export type DetectedAudioFingerprint = Pick<AudioFingerprint, "context">;
@@ -31,7 +32,7 @@ export type DetectedFontFingerprint = Pick<FontFingerprint, "installed">;
 export type DetectedHardware = Omit<Hardware, "battery">;
 export type DetectedLocalization = Pick<Localization, "languages" | "timezone" | "timezoneOffset">;
 export type DetectedMediaCapabilities = MediaCapabilities;
-export type DetectedNetworkFingerprint = Pick<NetworkFingerprint, "connection">;
+export type DetectedNetworkFingerprint = { connection?: Omit<NetworkInformation, "saveData" | "onchange"> }
 export type DetectedPerformanceTiming = PerformanceTiming;
 export type DetectedPrivacySignals = PrivacySignals;
 export type DetectedStorageInfo = StorageInfo;

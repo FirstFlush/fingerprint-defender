@@ -2,7 +2,7 @@ import detectEnvironment from "./detect";
 import spoofEnvironment from "./spoof";
 import setEnvironment from "./setEnv";
 
-const environment = await detectEnvironment();
-const spoofedEnvironment = spoofEnvironment(environment);
+const detectedEnvironment = await detectEnvironment();
+const spoofedEnvironment = spoofEnvironment(detectedEnvironment);
 
 await setEnvironment(spoofedEnvironment);

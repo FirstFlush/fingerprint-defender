@@ -190,19 +190,19 @@ export interface PerformanceTiming {
 // MASTER ENVIRONMENT
 // ======================
 export interface Environment {
-    audio: AudioFingerprint;
+    // audio: AudioFingerprint;
     browser: BrowserIdentity;
-    canvas: CanvasFingerprint;
+    // canvas: CanvasFingerprint;
     deviceType: DeviceType;
     display: Display;
-    fonts: FontFingerprint;
+    // fonts: FontFingerprint;
     hardware: Hardware;
     localization: Localization;
     media: MediaCapabilities;
     network: NetworkFingerprint;
     performanceTiming: PerformanceTiming;
     privacy: PrivacySignals;
-    sensors: SensorAccess;
+    sensors?: SensorAccess;
     storage?: StorageInfo;
-    webgl: WebGLFingerprint;
+    // webgl: WebGLFingerprint;
 }

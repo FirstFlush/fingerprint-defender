@@ -9,6 +9,8 @@ import { spoofPrivacySignals } from "./privacySignals";
 import { spoofMediaCapabilities } from "./media";
 import { spoofNetwork } from "./network";
 import { spoofStorage } from "./storage";
+import { spoofSensorAccess } from "./sensors";
+import { spoofPerformanceTiming } from "./performanceTiming";
 
 const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promise<Environment> => {
 
@@ -16,14 +18,18 @@ const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promi
 
     return {
         browser: spoofBrowserIdentity(inferredBrowser),
-        display: spoofDisplay(inferredBrowser),
         deviceType: inferredBrowser.deviceType,
+        display: spoofDisplay(inferredBrowser),
         hardware: await spoofHardware(inferredBrowser),
         localization: spoofLocalization(detectedEnvironment.localization),
+        performanceTiming: spoofPerformanceTiming(),
         privacy: await spoofPrivacySignals(inferredBrowser),
         media: await spoofMediaCapabilities(inferredBrowser.browser),
         network: await spoofNetwork(inferredBrowser.browser),
+        sensors: spoofSensorAccess(inferredBrowser),
         storage: await spoofStorage(inferredBrowser.browser),
+
+
     }
 }
 
