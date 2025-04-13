@@ -1,5 +1,4 @@
 import { BrowserIdentity, ProductSub } from "@/types/environment";
-import { DetectedBrowserIdentity, DetectedDeviceType } from "@/types/detectedEnvironment";
 import { CommonBrowser, InferredBrowser } from "@/types/inferredBrowser";
 
 
