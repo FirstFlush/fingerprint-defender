@@ -23,19 +23,23 @@ const getTzAwareLanguage = (
     let langRegion: keyof typeof TZ_AWARE_LANGUAGES;
     switch (tzRegion) {
         case "Asia": {
-            if (tzOffset <= 240) langRegion = "AsiaWest";         // UTC+4
-            if (tzOffset <= 360) langRegion = "AsiaSouth";        // Up to UTC+6
-            langRegion = "AsiaEast";                              // UTC+6.5 to UTC+9+
+            if (tzOffset <= 240) langRegion = "AsiaWest";           // UTC+4
+            if (tzOffset <= 360) langRegion = "AsiaSouth";          // Up to UTC+6
+            langRegion = "AsiaEast";                                // UTC+6.5 to UTC+9+
+            break
         }
         case "America": {
-            if (tzOffset >= -240) langRegion = "AmericaSouth";    // UTC-3+
-            if (tzOffset >= -360) langRegion = "AmericaMiddle";   // UTC-5 to UTC-6
-            langRegion = "AmericaNorth";                          // UTC-7 and earlier
+            if (tzOffset >= -240) langRegion = "AmericaSouth";      // UTC-3+
+            if (tzOffset >= -360) langRegion = "AmericaMiddle";     // UTC-5 to UTC-6
+            langRegion = "AmericaNorth"; 
+            break
         }
         default: {
             langRegion = tzRegion as keyof typeof TZ_AWARE_LANGUAGES;
+            break
         }
     }
+
     const langs = TZ_AWARE_LANGUAGES[langRegion]
     const length = TZ_AWARE_LANGUAGES[langRegion].length 
     return langs[Math.floor(Math.random() * length)]
@@ -72,11 +76,22 @@ const getSpoofedTz = (offset: number): string => {
     return tzOptions[Math.floor(Math.random() * tzOptions.length)];
 };
 
+// const overrideTz = (timezone: string): void => {
+//     const original = Intl.DateTimeFormat.prototype.resolvedOptions;
+//     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
+//         value: function () {
+//             return { ...original.call(this), timeZone: timezone };
+//         },
+//         configurable: true,
+//     });
+// };
+
 const overrideTz = (timezone: string): void => {
     const original = Intl.DateTimeFormat.prototype.resolvedOptions;
     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
         value: function () {
-            return { ...original.call(this), timeZone: timezone };
+            const realOptions = original.call(new Intl.DateTimeFormat()); // safe
+            return { ...realOptions, timeZone: timezone };
         },
         configurable: true,
     });

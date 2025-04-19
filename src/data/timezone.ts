@@ -34,7 +34,7 @@ export const TZ_AWARE_LANGUAGES = {
     Africa: [
         "en-GB",
         "fr-FR",
-        "ar-SA",    // Arabic
+        "ar-SA",        // Arabic
     ],
 
     AmericaMiddle: [    // Florida, Quebec, Colombia, Peru, Cuba
@@ -65,17 +65,17 @@ export const TZ_AWARE_LANGUAGES = {
         "en-US",
     ],
     AsiaSouth: [
-        "hi-IN",    // Hindi
+        "hi-IN",        // Hindi
         "en-GB",
-        "bn-BD",    // Bengali
-        "ur-PK",    // Urdu
+        "bn-BD",        // Bengali
+        "ur-PK",        // Urdu
     ],
     AsiaWest: [
         "en-GB",
         "ar-SA",
-        "fa-IR",    // Farsi
-        "tr-TR",    // Turkish
-        "he-IL",    // Hebrew
+        "fa-IR",        // Farsi
+        "tr-TR",        // Turkish
+        "he-IL",        // Hebrew
     ],
     Atlantic: [
         "en-GB",

@@ -26,7 +26,7 @@ const spoofStorageAsUndefined = () => {
 }
 
 export const spoofStorage = async (browser: CommonBrowser): Promise<StorageInfo | undefined> => {
-    if (browser === "Safari"){
+    if (browser === "Safari" || browser === "Firefox"){
         spoofStorageAsUndefined()
         return undefined
     }

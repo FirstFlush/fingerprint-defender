@@ -14,7 +14,7 @@ import { spoofPerformanceTiming } from "./performanceTiming";
 
 const spoofEnvironment = async (detectedEnvironment: DetectedEnvironment): Promise<Environment> => {
 
-    const inferredBrowser = inferBrowser(detectedEnvironment.deviceType);
+    const inferredBrowser = await inferBrowser(detectedEnvironment.deviceType);
 
     return {
         browser: spoofBrowserIdentity(inferredBrowser),
