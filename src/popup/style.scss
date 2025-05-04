@@ -1,0 +1,87 @@
+// src/popup/style.scss
+@use "sass:color";
+
+$bg: #f0f0f0;
+$fg: #1f1f1f;
+$accent: #24642d;
+$btn: color.adjust($accent, $lightness: 10%);
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: $bg;
+  color: $fg;
+  width: 300px;
+  // width: fit-content;
+  box-sizing: border-box;
+  background-image: url('/white-abstract.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+#popup {
+  padding: 1rem;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  letter-spacing: -1px;
+  font-size: 1.4rem;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  div:first-of-type {
+    position: relative;
+    background-color: $accent;
+    color: white;
+    border-radius: 7px;
+    width: 2rem;
+    height: 2rem;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.identity-output {
+  background: #2c2c2c;
+  color: #d1fae5;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.btn {
+  background: $btn;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background: darken($btn, 10%);
+  }
+}
