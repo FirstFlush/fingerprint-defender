@@ -76,16 +76,6 @@ const getSpoofedTz = (offset: number): string => {
     return tzOptions[Math.floor(Math.random() * tzOptions.length)];
 };
 
-// const overrideTz = (timezone: string): void => {
-//     const original = Intl.DateTimeFormat.prototype.resolvedOptions;
-//     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {
-//         value: function () {
-//             return { ...original.call(this), timeZone: timezone };
-//         },
-//         configurable: true,
-//     });
-// };
-
 const overrideTz = (timezone: string): void => {
     const original = Intl.DateTimeFormat.prototype.resolvedOptions;
     Object.defineProperty(Intl.DateTimeFormat.prototype, "resolvedOptions", {

@@ -34,7 +34,7 @@ export const spoofStorage = async (browser: CommonBrowser): Promise<StorageInfo 
     spoofPersisted()
     return {
         estimate: await navigator.storage.estimate(),
-        persisted: await navigator.storage.persisted(),
+        persisted: false,   // navigator.storage.persisted() will require user prompt in browser to access persisted storage.
     }
 } 
 

@@ -16,9 +16,8 @@ const fetchUserAgents = async (params: Record<string, any>): Promise<UserAgentOb
 
 export const getUserAgent = async (deviceType: DeviceType): Promise<UserAgentObject> => {
     for (let attempt = 1; attempt <= USERAGENT_MAX_RETRIES; attempt++) {
-        console.log(`attempt ${attempt}`)
         const userAgents = await fetchUserAgents({
-            deviceType,
+            deviceCategory: deviceType,
             limit: USERAGENT_API_LIMIT,
         });
 

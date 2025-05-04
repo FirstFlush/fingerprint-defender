@@ -18,10 +18,10 @@ export const spoofDisplay = (inferredBrowser: InferredBrowser): Display => {
     spoofOrientation(inferredBrowser.deviceType);
 
     return {
-        width: inferredBrowser.screenWidth,
-        height: inferredBrowser.screenHeight,
-        availWidth: inferredBrowser.viewportWidth,
-        availHeight: inferredBrowser.viewportHeight,
+        width: inferredBrowser.userAgentObject.screenWidth,
+        height: inferredBrowser.userAgentObject.screenHeight,
+        availWidth: inferredBrowser.userAgentObject.viewportWidth,
+        availHeight: inferredBrowser.userAgentObject.viewportHeight,
         pixelDepth: 24,
         colorDepth: 24,
         devicePixelRatio: 1,
