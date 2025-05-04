@@ -22,7 +22,7 @@ const windingRuleTest = (ctx: CanvasRenderingContext2D): boolean => {
  * Renders stylized text onto the canvas and returns its pixel output as a data URL.
  * The rendering result varies subtly depending on OS, browser, font smoothing, etc.
  * 
- * - Uses Arial because it's commonly installed but renders differently on most systems.
+ * - Uses Arial font because it's commonly installed, but renders differently on most systems.
  * - These rendering quirks are highly fingerprintable.
  */
 const textRendering = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): string => {

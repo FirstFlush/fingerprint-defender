@@ -8,7 +8,7 @@ $accent: #734894;
 $btn: color.adjust($accent, $lightness: 10%);
 
 ::selection {
-  background-color: color.adjust($accent, $lightness: 20%, $alpha: -0.3);
+  background-color: color.adjust($accent, $lightness: 20%, $alpha: -0.4);
   color: white;
 }
 
@@ -89,6 +89,9 @@ body {
   &:hover,
   &:focus {
     background-color: color.adjust($btn, $lightness: -10%);
+  }
+  &:active {
+    background-color: color.adjust($btn, $lightness: -20%);
   }
 }
 
