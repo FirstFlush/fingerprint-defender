@@ -1,16 +1,18 @@
 {
-    "manifest_version": 3,
-    "name": "Fingerprint Defender",
-    "version": "0.1.0",
-    "background": {
-      "service_worker": "dist/background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["dist/content.js"],
-        "run_at": "document_start"
-      }
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "Fingerprint Defender",
+  "version": "0.1.0",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

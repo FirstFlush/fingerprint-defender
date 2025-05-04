@@ -22,6 +22,7 @@ export interface InferredBrowser {
 // import { COMMON_PLATFORMS } from "@/data/platforms";
 // import { DeviceType, NetworkInformation } from "./environment";
 // import UserAgent from "user-agents";
+// import { UserAgentObject } from "./userAgent";
 
 // export type CommonBrowser = (typeof COMMON_BROWSER_MAPPING)[number]["name"];
 // export type CommonPlatform = (typeof COMMON_PLATFORMS)[number];
@@ -36,6 +37,7 @@ export interface InferredBrowser {
 //         | "random"
 //         | "deviceCategory"
 //         | "connection"
+
 //     > {
 //     browser: CommonBrowser;
 //     deviceType: DeviceType;
