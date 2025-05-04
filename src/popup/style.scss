@@ -3,8 +3,14 @@
 
 $bg: #f0f0f0;
 $fg: #1f1f1f;
-$accent: #24642d;
+$accent: #734894;
+// $accent: #24642d;
 $btn: color.adjust($accent, $lightness: 10%);
+
+::selection {
+  background-color: color.adjust($accent, $lightness: 20%, $alpha: -0.3);
+  color: white;
+}
 
 html {
   font-size: 16px;
@@ -82,6 +88,13 @@ body {
 
   &:hover,
   &:focus {
-    background: darken($btn, 10%);
+    background-color: color.adjust($btn, $lightness: -10%);
   }
+}
+
+#new-identity {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
 }
